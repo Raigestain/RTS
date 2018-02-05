@@ -93,10 +93,12 @@ class	geVector4;
 /************************************************************************************************************************/
 /* Inclusión de archivos requeridos para el uso de viewback																*/
 /************************************************************************************************************************/
+#ifdef USE_VIEWBACK
 #include "viewback.h"
 #include "viewback_shared.h"
 #include "viewback_internal.h"
 #include "viewback_util.h"
+#endif // USE_VIEWBACK
 
 /************************************************************************************************************************/
 /* Inclusión de Pthreads para creación de procesos en paralelo															*/

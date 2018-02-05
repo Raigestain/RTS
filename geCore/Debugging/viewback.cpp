@@ -13,6 +13,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 THE SOFTWARE.
 */
 
+#ifdef USE_VIEWBACK
+
 #include "geCoreStd.h"
 
 #pragma warning(disable: 4505) /* unreferenced local function has been removed - generated because of vb_socket_is_blocking_error() not used in the Viewback server */
@@ -2076,3 +2078,5 @@ size_t vb__Packet_serialize(struct vb__Packet *_Packet, void *_buffer, size_t le
 
 	return end_offset;
 }
+
+#endif // USE_VIEWBACK

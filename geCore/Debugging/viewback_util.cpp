@@ -13,6 +13,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 THE SOFTWARE.
 */
 
+#ifdef USE_VIEWBACK
+
 #include "geCoreStd.h"
 
 using namespace std;
@@ -456,3 +458,4 @@ vb_bool vb_util_server_create(const char* server_name)
 	return 1;
 }
 
+#endif // USE_VIEWBACK

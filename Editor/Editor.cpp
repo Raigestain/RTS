@@ -79,9 +79,11 @@ geVector2D g_MapMovementSpeed(1024.f,1024.f);	//Indica la velocidad (pixeles por
 lua_State* g_LuaState = NULL;
 
 //Objetos para el uso de viewback
+#ifdef USE_VIEWBACK
 vb_group_handle_t g_Mouse_Group;
 vb_channel_handle_t g_MouseX_Channel;
 vb_channel_handle_t g_MouseY_Channel;
+#endif // USE_VIEWBACK
 
 /************************************************************************************************************************/
 /* Implementación de la función de inicialización de la aplicación														*/
@@ -158,13 +160,15 @@ bool Init()
 	SRandInit( (int32)time(NULL) );
 
 	//Inicializamos el API de sockets de windows
-	WSADATA wsaData = {0};
+#ifdef USE_VIEWBACK
+  WSADATA wsaData = {0};
 	int32 wsaResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (wsaResult != 0)
 	{
 		GEE_ERROR(TEXT("Fallo en la inicialización de WSAStartup"));
 		return false;
 	}
+#endif // USE_VIEWBACK
 
 	//Inicializamos el logger
 	geLogger::Init( TEXT("Config\\Logging.xml") );
@@ -292,7 +296,9 @@ void Destroy()
 	DestroyViewBack();
 
 	//Limpiamos los objetos del API de sockets de windows
-	WSACleanup();
+#ifdef USE_VIEWBACK
+  WSACleanup();
+#endif // USE_VIEWBACK
 
 	GEE_LOG( TEXT("Editor"), TEXT("***** Destroy() *****") );
 
@@ -388,6 +394,7 @@ bool InitGUI()
 /************************************************************************************************************************/
 bool InitViewBackSystem()
 {
+#ifdef USE_VIEWBACK
 	WSADATA wsaData = {0};
 	int32 wsaResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (wsaResult != 0)
@@ -417,6 +424,7 @@ bool InitViewBackSystem()
 		return false;
 	}
 
+#endif // USE_VIEWBACK
 	return true;
 }
 
@@ -429,6 +437,7 @@ bool InitViewBackSystem()
 /************************************************************************************************************************/
 void UpdateViewBackData()
 {
+#ifdef USE_VIEWBACK
 	//This function must be called at least once per frame
 	vb_server_update(g_iCurrentGameTime);
 
@@ -441,6 +450,7 @@ void UpdateViewBackData()
 	{
 		GEE_LOG(TEXT("Editor"), TEXT("Error sending data to the Viewback chanel"));
 	}
+#endif // USE_VIEWBACK
 }
 
 /************************************************************************************************************************/
@@ -448,8 +458,10 @@ void UpdateViewBackData()
 /************************************************************************************************************************/
 void DestroyViewBack()
 {
+#ifdef USE_VIEWBACK
 	vb_server_shutdown();
 	vb_util_initialize();
+#endif // USE_VIEWBACK
 }
 
 /************************************************************************************************************************/
