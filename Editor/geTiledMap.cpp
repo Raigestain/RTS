@@ -11,6 +11,7 @@
 /************************************************************************************************************************/
 #include "stdafx.h"
 #include "geTiledMap.h"
+#include <algorithm>
 
 /************************************************************************************************************************/
 /* Implementación de funciones de la clase geTiledMap                              										*/
@@ -90,21 +91,16 @@ bool geTiledMap::Init(SDL_Renderer* pRenderer, const int32 mapSize)
 	m_mapTextures = GEE_NEW geTexture[TT_NUM_OBJECTS];
 	GEE_ASSERT(m_mapTextures);
 
+  //Cargamos las imágenes de sus archivos respectivos
+  for (uint8 i = 0; i < TT_NUM_OBJECTS; ++i)
+  {
 #ifdef MAP_IS_ISOMETRIC	//El mapa está en modo isométrico
-	//Cargamos las imágenes de sus archivos respectivos
-	for( uint8 i=0; i<TT_NUM_OBJECTS; ++i )
-	{
-		textureName = TEXT("Textures\\Terrain\\iso_terrain_")+ ToStr(0) +TEXT(".png");
-		m_mapTextures[i].LoadFromFile(m_pRenderer, textureName);
-	}
+    textureName = TEXT("Textures\\Terrain\\iso_terrain_")+ ToStr(i) +TEXT(".png");
 #else	//Estamos utilizando el sistema de mapa cuadrado
-	//Cargamos las imágenes de sus archivos respectivos
-	for( uint8 i=0; i<TT_NUM_OBJECTS; ++i )
-	{
-		textureName = TEXT("Textures\\Terrain\\terrain_")+ ToStr(i) +TEXT(".png");
-		m_mapTextures[i].LoadFromFile(m_pRenderer, textureName);
-	}
+    textureName = TEXT("Textures\\Terrain\\terrain_")+ ToStr(i) +TEXT(".png");
 #endif
+    m_mapTextures[i].LoadFromFile(m_pRenderer, textureName);
+  }
 
 	//Hacemos los precálculos necesarios según los cambios en los datos
 	PreCalc();
